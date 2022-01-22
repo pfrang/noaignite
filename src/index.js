@@ -73,6 +73,8 @@ const getCoordinates = (data) => {
 btn.addEventListener(("click"), (event) => {
   event.preventDefault();
   list.innerHTML = "";
+  card.innerHTML = "";
+  mapSelector.innerHTML = "";
   fetch(`${ruterUrl}${input.value}&lang=en`)
     .then(response => response.json())
     .then(getCoordinates);
