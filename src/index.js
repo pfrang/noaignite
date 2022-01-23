@@ -29,16 +29,24 @@ input.addEventListener('keyup', (event) => {
     });
 })
 
+const emojiJSON = {
+  cloudy: "☁",
+  fog: "🌫",
+  snow: "❄",
+  clearsky_night: "🌃",
+  clearsky_day: "🌞"
+};
 
 const populateWeather = (data) => {
-  console.log(data)
   const details = data.properties.timeseries[0].data.instant.details;
-  const meta = data.properties.meta.units
+  const meta = data.properties.meta.units;
+  const weatherSymbol = emojiJSON[data.properties.timeseries[0].data.next_1_hours.summary.symbol_code];
   card.insertAdjacentHTML("afterbegin",
-  `<p>Sist oppdatert: ${data.properties.meta.updated_at}</p>
+  `<p>Neste timen: ${weatherSymbol}
+  <p>Sist oppdatert: ${new Date(data.properties.meta.updated_at)}</p>
   <p>Lufttemperatur: ${details.air_temperature} ${meta.air_temperature}</p>
   <p>Relativ(??) fuktighet: ${details.relative_humidity} ${meta.relative_humidity}</p>
-  <p>Vindhastighet: ${details.wind_speed} ${meta.wind_speed}</p>`
+  <p>Vindhastighet: ${details.wind_speed} ${meta.wind_speed} 💨</p>`
   )
 }
 
@@ -49,7 +57,7 @@ const populateMap = (coordinates) => {
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v9',
     center: [parseFloat(coordinates[0]), parseFloat(coordinates[1])],
-    zoom: 15
+    zoom: 14
   });
   const marker = new mapboxgl.Marker()
     .setLngLat([parseFloat(coordinates[0]), parseFloat(coordinates[1])])
